@@ -28,17 +28,20 @@ services:
       context: ./deamonService
       dockerfile: Dockerfile
     environment:
+      - NATSUSER=daemon_service
+      - NATSPASSWORD=secure_daemon_password
       - NATSHOST=nats
       - NATSPORT=4222
     depends_on:
       - nats
-
 
   writer:
     build:
       context: ./writerService
       dockerfile: Dockerfile
     environment:
+      - NATSUSER=writer_service
+      - NATSPASSWORD=secure_writer_password
       - NATSHOST=nats
       - NATSPORT=4222
       - INFLUXURL=http://influxdb:8086
@@ -56,6 +59,8 @@ services:
       context: ./readerService
       dockerfile: Dockerfile
     environment:
+      - NATSUSER=reader_service
+      - NATSPASSWORD=secure_reader_password
       - NATSHOST=nats
       - NATSPORT=4222
       - INFLUXURL=http://influxdb:8086
@@ -73,6 +78,8 @@ services:
       context: ./clientService
       dockerfile: Dockerfile
     environment:
+      - NATSUSER=client_service
+      - NATSPASSWORD=secure_client_password
       - NATSHOST=nats
       - NATSPORT=4222
       - INFLUXURL=http://influxdb:8086

@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"fmt"
+	"log"
 
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
 	readApi "github.com/influxdata/influxdb-client-go/v2/api"
@@ -56,11 +57,15 @@ func (db *InfluxDBClient) ReadDb(limit int, criticalityLevel int) ([]Event, erro
 	for result.Next() {
 		record := result.Record()
 
-		criticality, _ := record.ValueByKey("criticality").(int64)
-		
+		criticality, ok := record.ValueByKey("criticality").(int64)
+		if !ok {
+			log.Println("Criticality not expected type ")
+		}
 
-		eventMessage, _ := record.ValueByKey("eventMessage").(string)
-		
+		eventMessage, ok := record.ValueByKey("eventMessage").(string)
+		if !ok {
+			eventMessage = "Random security even"
+		}
 
 		event := Event{
 			Criticality:  int(criticality),
