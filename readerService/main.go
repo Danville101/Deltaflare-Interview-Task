@@ -19,9 +19,13 @@ func main() {
 		log.Fatalf("Error loading .env file")
 	}
 
-	natshost := os.Getenv("NATSHOST")
-	natsport := os.Getenv("NATSPORT")
-	url := fmt.Sprintf("nats://%s:%s", natshost, natsport)
+	host := os.Getenv("NATSHOST")
+	port := os.Getenv("NATSPORT")
+	nastUser := os.Getenv("NATSUSER")
+	natsPassword := os.Getenv("NATSPASSWORD")
+
+
+	url := fmt.Sprintf("nats://%s:%s@%s:%s",nastUser,natsPassword, host, port)
 
 	nc, err := nats.Connect(url)
 	if err != nil {

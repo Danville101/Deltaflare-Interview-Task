@@ -21,8 +21,14 @@ func main() {
 	if err != nil {
 	    log.Fatalf("Error loading .env file")
 	}
+	
 	host := os.Getenv("NATSHOST")
 	port := os.Getenv("NATSPORT")
+	nastUser := os.Getenv("NATSUSER")
+	natsPassword := os.Getenv("NATSPASSWORD")
+
+
+	url := fmt.Sprintf("nats://%s:%s@%s:%s",nastUser,natsPassword, host, port)
  	criticalityLevel := os.Getenv("CRITICALITYLEVEL")
 	 criticalityLevelInt, err := strconv.Atoi(criticalityLevel)
 	if err !=nil{
@@ -30,7 +36,6 @@ func main() {
 		
 	}
 
-	url := fmt.Sprintf("nats://%s:%s", host, port)
 	nc, err := nats.Connect(url)
 	if err != nil {
 		log.Fatalf("Error connecting to NATS: %v", err)

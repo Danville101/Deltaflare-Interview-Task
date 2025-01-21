@@ -1,10 +1,15 @@
-version: '3.8'  # Using a more specific version of Docker Compose
+version: '3.8'  
 
 services:
   nats:
-    image: nats
+    image: nats:latest
     ports:
       - "4222:4222"
+    volumes:
+      - ./nats.conf/nats-server.conf:/etc/nats-server.conf      
+    restart: always
+
+
 
   influxdb:
     image: influxdb:2.7

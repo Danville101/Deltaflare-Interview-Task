@@ -80,6 +80,12 @@ Docker Compose is used to manage the microservices network, including the NATS s
 
 - **Environment Variables**: Critical information is stored in a `.env` file, ensuring sensitive data is not hard-coded.
 - **GitHub Ignore**: A `.gitignore` file is used to prevent the `.env` file from being pushed to the public repository, safeguarding sensitive information.
+- **Role-Based Access Control (RBAC)**: Implemented least privileged role-based access control for each microservice when connecting to NATS. This ensures that each service has only the necessary permissions required for its operation, thereby minimizing the potential attack surface.
+  - **Daemon Service**: Can publish events to the `events` subject.
+  - **Writer Service**: Can subscribe to the `events` subject.
+  - **Reader Service**: Can publish and subscribe to `query.event`.
+  - **Client Service**: Can publish and subscribe to `query.event`.
+
 
 ## Future Updates
 

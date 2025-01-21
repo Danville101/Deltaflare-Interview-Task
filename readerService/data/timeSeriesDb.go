@@ -56,16 +56,11 @@ func (db *InfluxDBClient) ReadDb(limit int, criticalityLevel int) ([]Event, erro
 	for result.Next() {
 		record := result.Record()
 
-		criticality, ok := record.ValueByKey("criticality").(int64)
-		if !ok {
-			fmt.Println("Invalid type for criticality")
-			continue
-		}
+		criticality, _ := record.ValueByKey("criticality").(int64)
+		
 
-		eventMessage, ok := record.ValueByKey("eventMessage").(string)
-		if !ok {
-			eventMessage = "No message"
-		}
+		eventMessage, _ := record.ValueByKey("eventMessage").(string)
+		
 
 		event := Event{
 			Criticality:  int(criticality),
